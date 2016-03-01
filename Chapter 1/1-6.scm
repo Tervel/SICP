@@ -35,17 +35,19 @@
     (cond (predicate then-clause)
         (else else-clause)))
 
+
 ; Recursive square-root iteration using new-if.
+(define (sqrt-iter guess x)
+    (new-if (good-enough? guess x)
+        guess
+        (sqrt-iter (improve guess x)
+            x)))
+
 ; Using this function to compute square roots results in an infinite
 ; recursion loop. This is because the new-if procedure evalutes using
 ; normal-order evaluation which results in the procedure looping until it
 ; is able to find an expression only containing primitive operators, which in
 ; this case will not happen. The default if statement uses applicative-order
 ; evaluation which does not have this issue
-(define (sqrt-iter guess x)
-    (new-if (good-enough? guess x)
-        guess
-        (sqrt-iter (improve guess x)
-            x)))
 
 (sqrt 9)
